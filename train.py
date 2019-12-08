@@ -581,7 +581,23 @@ class Trainer:
                     ds_source.next(), ds_target.next(), ds_smooth.next())
                 self.train_step(source_images, target_images, smooth_images,
                                 generator, d, g_optimizer, d_optimizer)
-
+                
+                #######################################################################################
+                #if step == steps_per_epoch / 2:
+                #    self.logger.info(f"Saving checkpoints after step {step} ended... to avoid OOM! ")
+                #    g_checkpoint.save(file_prefix=self.generator_checkpoint_prefix)
+                #    d_checkpoint.save(file_prefix=self.discriminator_checkpoint_prefix)
+                #    generator.save_weights(os.path.join(self.model_dir, "generator"))
+                #######################################################################################
+                
+                #######################################################################################
+                if step == steps_per_epoch:
+                    self.logger.info(f"Saving checkpoints after step {step} ended... to avoid OOM! ")
+                    g_checkpoint.save(file_prefix=self.generator_checkpoint_prefix)
+                    d_checkpoint.save(file_prefix=self.discriminator_checkpoint_prefix)
+                    generator.save_weights(os.path.join(self.model_dir, "generator"))
+                    d.save_weights(os.path.join(self.model_dir, "discriminator")) #not sure about it!
+                #######################################################################################
                 if step % self.reporting_steps == 0:
 
                     global_step = (epoch_idx - 1) * steps_per_epoch + step
@@ -616,7 +632,27 @@ class Trainer:
                     tf.summary.image('gan_val_generated_images', img, step=epoch)
             self.logger.info(f"Saving checkpoints after epoch {epoch_idx} ended...")
             g_checkpoint.save(file_prefix=self.generator_checkpoint_prefix)
-            d_checkpoint.save(file_prefix=self.discriminator_checkpoint_prefix)
+            d_checkpoint.save(file_prefix=self.
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              _checkpoint_prefix)
 
             generator.save_weights(os.path.join(self.model_dir, "generator"))
             gc.collect()
