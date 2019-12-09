@@ -6,13 +6,20 @@ from random import choice
 
 from imageio import imwrite
 import tensorflow as tf
+
+#prevent memory leak
+############################################
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+############################################
+
 import numpy as np
 from tqdm import tqdm
 
 from logger import get_logger
 from generator import Generator
 from discriminator import Discriminator
-
 
 @tf.function
 def gram(x):
@@ -101,7 +108,7 @@ class Trainer:
         self.pretrain_generator_name = pretrain_generator_name
         self.generator_name = generator_name
         self.discriminator_name = discriminator_name
-
+        
         self.logger = get_logger("Trainer", debug=debug)
         # NOTE: just minimal demonstration of multi-scale training
         self.sizes = [self.input_size - 32, self.input_size, self.input_size + 32]
@@ -630,31 +637,6 @@ class Trainer:
                             0,
                     )
                     tf.summary.image('gan_val_generated_images', img, step=epoch)
-            self.logger.info(f"Saving checkpoints after epoch {epoch_idx} ended...")
-            g_checkpoint.save(file_prefix=self.generator_checkpoint_prefix)
-            d_checkpoint.save(file_prefix=self.
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              
-                              _checkpoint_prefix)
-
-            generator.save_weights(os.path.join(self.model_dir, "generator"))
             gc.collect()
         del ds_source, ds_target, ds_smooth
         gc.collect()
